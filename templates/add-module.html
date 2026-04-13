@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Module - Hanominds LMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">🐍</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('instructor_dashboard') }}" class="sb-item">🏠 Dashboard</a>
+            <a href="{{ url_for('manage_modules') }}" class="sb-item">📚 Manage Modules</a>
+            <a href="{{ url_for('view_students') }}" class="sb-item">👥 View Students</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">➕ Add New Module</div>
+        </div>
+
+        <div class="form-container">
+            <div class="form-card">
+                <h2>📚 Create New Module</h2>
+                <p>Add a new learning module to your course! 🎯</p>
+
+                <form method="POST" class="module-form">
+                    <div class="form-group">
+                        <label for="title">Module Title 📖</label>
+                        <input type="text" id="title" name="title" placeholder="Enter module title..." required
+                            class="form-input">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Create Module ➕</button>
+                        <a href="{{ url_for('manage_modules') }}" class="btn-secondary">Cancel ❌</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

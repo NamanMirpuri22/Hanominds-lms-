@@ -1,0 +1,127 @@
+<footer class="hanominds-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="footer-logo">
+                <span class="logo-icon">💡</span>
+                <h3>Hanominds Learning Technologies</h3>
+                <p>Build Skills. Build Future.</p>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="https://hanomindslearning.com" target="_blank">Our Website</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Contact Us</h4>
+            <ul>
+                <li>📧 <a href="mailto:infohanomind@hanomindslearning.com">infohanomind@hanomindslearning.com</a></li>
+                <li>📞 <a href="tel:+917093992970">70939 92970</a></li>
+                <li>📍 Vizianagaram, Andhra Pradesh, India</li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>About Us</h4>
+            <p>Empowering the next generation with practical, career-focused technology education. From school to
+                startup — we've got your learning journey covered.</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Hanominds Learning Technologies. All rights reserved. | Built with ❤️ for learners everywhere.
+        </p>
+    </div>
+</footer>
+
+<style>
+    .hanominds-footer {
+        background: linear-gradient(170deg, #0891B2, #00D9FF);
+        color: white;
+        padding: 40px 20px 20px;
+        margin-top: 60px;
+        border-top: 3px solid #FBBF24;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    .footer-section h3,
+    .footer-section h4 {
+        margin-top: 0;
+        color: #FBBF24;
+        font-weight: 700;
+    }
+
+    .footer-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-section li {
+        margin-bottom: 10px;
+    }
+
+    .footer-section a {
+        color: #CFFAFE;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+        color: #FBBF24;
+        text-decoration: underline;
+    }
+
+    .footer-section p {
+        font-size: 14px;
+        line-height: 1.6;
+        opacity: 0.9;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 13px;
+        opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+        .hanominds-footer {
+            padding: 30px 16px 16px;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .footer-section {
+            font-size: 13px;
+        }
+    }
+</style>

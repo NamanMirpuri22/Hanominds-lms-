@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Dashboard - Hanominds Learning Technologies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">�</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('instructor_dashboard') }}" class="sb-item active">🏠 Dashboard</a>
+            <a href="{{ url_for('manage_modules') }}" class="sb-item">📚 Manage Modules</a>
+            <a href="{{ url_for('view_students') }}" class="sb-item">👥 View Students</a>
+            <a href="{{ url_for('instructor_analytics') }}" class="sb-item">📊 Analytics</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">👋 Welcome, {{ user.name }}! 🎓</div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-content">
+                    <h3>Manage Modules</h3>
+                    <p>Create and edit course content</p>
+                    <a href="{{ url_for('manage_modules') }}" class="btn-primary">Go 📖</a>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <h3>View Students</h3>
+                    <p>Monitor student progress</p>
+                    <a href="{{ url_for('view_students') }}" class="btn-primary">Go 👨‍🎓</a>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3>Analytics</h3>
+                    <p>View student performance metrics</p>
+                    <a href="{{ url_for('instructor_analytics') }}" class="btn-primary">Go 📈</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

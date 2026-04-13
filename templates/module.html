@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ module.title }} - Hanominds LMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">�</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('student_dashboard') }}" class="sb-item">🏠 Dashboard</a>
+            <a href="{{ url_for('course') }}" class="sb-item">📚 My Course</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">📖 {{ module.title }}</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('study')">📘 Study</button>
+            <button class="tab-button" onclick="openTab('code')">💻 Code Practice</button>
+            <button class="tab-button" onclick="openTab('quiz')">📝 Quiz</button>
+            <button class="tab-button" onclick="openTab('assignment')">📂 Assignment</button>
+            <button class="tab-button" onclick="openTab('progress')">📊 Progress</button>
+        </div>
+
+        <div id="study" class="tab-content">
+            <div class="content">{{ lesson.content | safe }}</div>
+        </div>
+
+        <div id="code" class="tab-content" style="display:none;">
+            <h3>💻 Python Code Practice 🐍</h3>
+            <p>Write your code and click Run! 🚀</p>
+            <div class="code-editor">
+                <textarea id="code-input" placeholder="Write your Python code here...">print("Hello, World!")</textarea>
+                <button onclick="runCode()" class="btn-primary">Run Code 🎯</button>
+                <div id="output"></div>
+            </div>
+        </div>
+
+        <div id="quiz" class="tab-content" style="display:none;">
+            <h3>📝 Quiz Time! 🧠</h3>
+            {% if quiz and questions %}
+            <form method="POST" action="{{ url_for('quiz', quiz_id=quiz.id) }}">
+                {% for question in questions %}
+                <div class="question">
+                    <p>{{ question.question }} ❓</p>
+                    {% for opt in question.options_list %}
+                    <label><input type="radio" name="q{{ question.id }}" value="{{ loop.index0 }}"> {{ opt }}</label>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn-primary">Submit Quiz 🎉</button>
+            </form>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">❓</div>
+                <p>No quiz is available for this module yet.</p>
+                <p>Check back soon or contact your instructor.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div id="assignment" class="tab-content" style="display:none;">
+            <h3>📂 Assignment 📝</h3>
+            {% if assignment %}
+            <p>{{ assignment.description }}</p>
+            <form method="POST" action="{{ url_for('assignment', assignment_id=assignment.id) }}">
+                <textarea name="content" placeholder="Your submission... ✍️"></textarea>
+                <button type="submit" class="btn-primary">Submit 🎯</button>
+            </form>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">🛠️</div>
+                <p>This module has no assignment yet.</p>
+                <p>Your instructor is working on it.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div id="progress" class="tab-content" style="display:none;">
+            <h3>📊 Your Progress 📈</h3>
+            {% if progress %}
+            <p>Completed: {{ 'Yes ✅' if progress.completed else 'No ❌' }}</p>
+            <p>Quiz Score: {{ progress.quiz_score }}% 🎯</p>
+            {% if assignment %}
+            <p>Assignment Done: {{ 'Yes ✅' if progress.assignment_done else 'No ❌' }}</p>
+            {% else %}
+            <p>Assignment: Not required for this module ✅</p>
+            {% endif %}
+            {% else %}
+            <p>You have not started this module yet.</p>
+            <p>Complete the lesson, quiz, and assignment to track progress.</p>
+            {% endif %}
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

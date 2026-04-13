@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Students - Hanominds LMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <style>
+        .students-container {
+            padding: 20px;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .students-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .students-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .students-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 25px;
+            min-width: 150px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75em;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge.excellent {
+            background: #4dabf7;
+        }
+
+        .badge.good {
+            background: #51cf66;
+        }
+
+        .badge.warning {
+            background: #ff6b6b;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 20px 0 20px 0;
+            color: #333;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">�</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('instructor_dashboard') }}" class="sb-item">🏠 Dashboard</a>
+            <a href="{{ url_for('manage_modules') }}" class="sb-item">📚 Manage Modules</a>
+            <a href="{{ url_for('view_students') }}" class="sb-item active">👥 View Students</a>
+            <a href="{{ url_for('instructor_analytics') }}" class="sb-item">📊 Analytics</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">👥 Student Tracking Dashboard</div>
+        </div>
+
+        <div class="students-container">
+            <div class="section-title">📈 Student Progress Overview</div>
+
+            {% if student_data %}
+            <table class="students-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Modules Completed</th>
+                        <th>Completion Rate</th>
+                        <th>Avg Quiz Score</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in student_data %}
+                    <tr>
+                        <td class="student-name">{{ data.student.name }}</td>
+                        <td>{{ data.student.email }}</td>
+                        <td>{{ data.modules_completed }} / {{ data.total_modules }}</td>
+                        <td>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: {{ data.completion_rate }}%">
+                                    {{ data.completion_rate }}%
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span
+                                class="badge {% if data.avg_quiz_score >= 80 %}excellent{% elif data.avg_quiz_score >= 60 %}good{% else %}warning{% endif %}">
+                                {{ data.avg_quiz_score }}%
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge excellent">💎 {{ data.points }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div style="text-align: center; padding: 40px; background: #f8f9ff; border-radius: 12px;">
+                <h3>No students yet 📚</h3>
+                <p style="color: #666;">Students will appear here once they sign up.</p>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+
+</html>

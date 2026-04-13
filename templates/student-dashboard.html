@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Hanominds Learning Technologies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">�</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('student_dashboard') }}" class="sb-item active">🏠 Dashboard</a>
+            <a href="{{ url_for('course') }}" class="sb-item">📚 My Course</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+        <div class="sb-user-card">
+            <div class="sb-avatar">{{ user.name[0].upper() }}</div>
+            <div class="sb-user-info">
+                <span class="sb-user-name">{{ user.name }}</span>
+                <span class="sb-user-role">Student</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">👋 My Dashboard</div>
+            <div class="points-pill">⭐ {{ user_points }} Points</div>
+        </div>
+
+        <div class="welcome-banner">
+            <div class="wb-left">
+                <h1>Hey {{ user.name }}! Ready to learn Python? 🚀</h1>
+                <button class="wb-btn" onclick="window.location.href='{{ url_for('course') }}'">▶ Continue
+                    Learning</button>
+            </div>
+            <div class="wb-mascot">🐍</div>
+        </div>
+
+        <div class="dash-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">📈</div>
+                <div class="stat-info">
+                    <h3>{{ "%.0f"|format(progress_percent) }}%</h3>
+                    <p>Course Progress</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon yellow">⭐</div>
+                <div class="stat-info">
+                    <h3>{{ user_points }}</h3>
+                    <p>Total Points</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">🔥</div>
+                <div class="stat-info">
+                    <h3>{{ user_streak }}</h3>
+                    <p>Day Streak</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-card" onclick="window.location.href='{{ url_for('course') }}'">
+            <div class="course-emoji">🐍</div>
+            <div>
+                <h3>Python for Kids</h3>
+                <p>Learn programming with fun!</p>
+                <div class="prog-bar-wrap">
+                    <div class="prog-bar-fill" style="width: {{ progress_percent }}%"></div>
+                </div>
+                <button class="continue-btn">▶ Continue Learning</button>
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

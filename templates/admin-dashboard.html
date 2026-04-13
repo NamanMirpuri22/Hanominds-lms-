@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hanominds LMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">🐍</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="sb-item active">🏠 Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">👋 Welcome, {{ user.name }}!</div>
+        </div>
+
+        <div class="admin-section">
+            <h3>👥 User Management 👨‍💼</h3>
+            <form method="POST" action="{{ url_for('add_user') }}" class="form-card">
+                <input type="text" name="name" placeholder="Name 📛" required>
+                <input type="email" name="email" placeholder="Email 📧" required>
+                <input type="password" name="password" placeholder="Password 🔑" required>
+                <select name="role">
+                    <option value="student">Student 👨‍🎓</option>
+                    <option value="instructor">Instructor 👩‍🏫</option>
+                    <option value="admin">Admin 👨‍💼</option>
+                </select>
+                <button type="submit" class="btn-primary">Add User ➕</button>
+            </form>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name 📛</th>
+                            <th>Email 📧</th>
+                            <th>Role 👤</th>
+                            <th>Status 📊</th>
+                            <th>Actions ⚙️</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>{{ u.name }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.role }}</td>
+                            <td>{{ u.status }}</td>
+                            <td><button>Edit ✏️</button> <button>Delete 🗑️</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

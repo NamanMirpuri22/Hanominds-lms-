@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Module - Hanominds LMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">🐍</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('instructor_dashboard') }}" class="sb-item">🏠 Dashboard</a>
+            <a href="{{ url_for('manage_modules') }}" class="sb-item">📚 Manage Modules</a>
+            <a href="{{ url_for('view_students') }}" class="sb-item">👥 View Students</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">✏️ Edit {{ module.title }}</div>
+        </div>
+
+        <div class="edit-tabs">
+            <button class="tab-button active" onclick="openTab('lesson')">📘 Lesson</button>
+            <button class="tab-button" onclick="openTab('assignment')">📂 Assignment</button>
+            <button class="tab-button" onclick="openTab('quiz')">📝 Quiz</button>
+        </div>
+
+        <div id="lesson" class="tab-content">
+            <form method="POST" class="form-card">
+                <h3>📘 Lesson Content</h3>
+                <p>Create engaging lesson content for your students! 🎯</p>
+                <div class="form-group">
+                    <textarea name="lesson_content" rows="15"
+                        placeholder="Write your lesson content here... You can use HTML formatting, emojis, and code examples!"
+                        class="form-textarea">{{ lesson.content if lesson else '' }}</textarea>
+                </div>
+                <button type="submit" class="btn-primary">Save Lesson 💾</button>
+            </form>
+        </div>
+
+        <div id="assignment" class="tab-content" style="display:none;">
+            <form method="POST" class="form-card">
+                <h3>📂 Assignment Description</h3>
+                <p>Create a coding challenge or task for students! 💻</p>
+                <div class="form-group">
+                    <textarea name="assignment_desc" rows="8"
+                        placeholder="Describe the assignment requirements, objectives, and what students should submit..."
+                        class="form-textarea">{{ assignment.description if assignment else '' }}</textarea>
+                </div>
+                <button type="submit" class="btn-primary">Save Assignment 💾</button>
+            </form>
+        </div>
+
+        <div id="quiz" class="tab-content" style="display:none;">
+            <div class="form-card">
+                <h3>📝 Quiz Questions</h3>
+                <p>Test your students' understanding! 🧠</p>
+                <div class="quiz-questions">
+                    {% for question in questions %}
+                    <div class="question-item">
+                        <h4>{{ question.question }}</h4>
+                        <div class="options">
+                            {% for opt in question.options_list %}
+                            <span class="option">{{ opt }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if not questions %}
+                <div class="empty-state">
+                    <div class="empty-icon">❓</div>
+                    <p>No quiz questions yet. Add some questions to test student knowledge!</p>
+                </div>
+                {% endif %}
+                <p style="text-align: center; color: var(--text-secondary); margin-top: 20px;">
+                    Quiz editing feature coming soon! 🚧
+                </p>
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

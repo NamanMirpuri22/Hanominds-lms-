@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Modules - Hanominds Learning Technologies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon">�</div>
+            <div class="sb-logo-text">Hanominds</div>
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('instructor_dashboard') }}" class="sb-item">🏠 Dashboard</a>
+            <a href="{{ url_for('manage_modules') }}" class="sb-item active">📚 Manage Modules</a>
+            <a href="{{ url_for('view_students') }}" class="sb-item">👥 View Students</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">📚 Manage Modules</div>
+        </div>
+
+        <div class="action-bar">
+            <a href="{{ url_for('add_module') }}" class="btn-primary add-btn">➕ Add New Module</a>
+        </div>
+
+        <div class="modules-grid">
+            {% for module in modules %}
+            <div
+                class="module-card {{ 'blue-top' if loop.index % 4 == 1 else 'green-top' if loop.index % 4 == 2 else 'orange-top' if loop.index % 4 == 3 else 'pink-top' }}">
+                <h3>{{ module.title }} 📖</h3>
+                <p>Order: {{ module.order }}</p>
+                <div class="card-actions">
+                    <a href="{{ url_for('edit_module', module_id=module.id) }}" class="btn-primary">Edit ✏️</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if not modules %}
+        <div class="empty-state">
+            <div class="empty-icon">📚</div>
+            <h3>No modules yet!</h3>
+            <p>Start building your course by adding your first module.</p>
+            <a href="{{ url_for('add_module') }}" class="btn-primary">Create First Module ➕</a>
+        </div>
+        {% endif %}
+    </main>
+</body>
+
+</html>
