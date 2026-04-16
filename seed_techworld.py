@@ -1,14 +1,12 @@
 import json
 import re
-from app import app
 from models import db, Course, Module, Lesson, Quiz, Question, Assignment
 
 def run_seed():
     with open('tech_world_data.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    with app.app_context():
-        # Create course
+    # Create course
         course = Course.query.filter_by(title="Tech World for Kids").first()
         if not course:
             course = Course(title="Tech World for Kids")
@@ -145,5 +143,7 @@ def run_seed():
             print(f"Added module {mod.order}: {mod.title}")
 
 if __name__ == '__main__':
-    run_seed()
-    print('Tech World for Kids seeding complete!')
+    from app import app
+    with app.app_context():
+        run_seed()
+        print('Tech World for Kids seeding complete!')
