@@ -1,6 +1,6 @@
-# 🐍 Hanominds LMS - Kid-Friendly Python Learning Platform
+# 🚀 Hanominds LMS - Kid-Friendly Tech & Coding Platform
 
-**A modern, interactive Learning Management System (LMS) designed specifically for kids to learn Python programming in a fun, gamified environment with instructor analytics and progress tracking.**
+**A modern, interactive Learning Management System (LMS) designed specifically for kids to learn Technology, Python programming, and more in a fun, gamified environment with instructor analytics and progress tracking.**
 
 ---
 
@@ -22,6 +22,7 @@
 ## ✨ Features
 
 ### 🎓 Student Features
+- **Multi-Course Support**: Switch seamlessly between different active courses (e.g., Python Adventure, Tech World for Kids)
 - **Interactive Modules**: Guided lessons with explanations, examples, activities, and code boxes
 - **Quizzes**: Multi-question quizzes with instant scoring (auto-graded)
 - **Assignments**: Code submission tasks to reinforce learning
@@ -426,4 +427,4 @@ For issues or questions:
 
 ## 🎉 Thank You!
 
-Enjoy teaching and learning Python with Hanominds LMS! 🐍✨
+Enjoy teaching and learning Tech & Coding with Hanominds LMS! 🚀✨

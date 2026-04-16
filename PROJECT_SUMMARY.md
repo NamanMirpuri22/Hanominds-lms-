@@ -9,8 +9,8 @@
 
 ## 🎯 Project Overview
 
-A **kid-friendly, interactive Python learning platform** built with Flask that enables:
-- **Students** to learn Python through structured modules, quizzes, and assignments
+A **kid-friendly, interactive Tech & Python learning platform** built with Flask that enables:
+- **Students** to learn through structured, multi-course curricula (e.g., Python Adventure, Tech World for Kids)
 - **Instructors** to manage course content and monitor student performance with comprehensive analytics
 - **Admins** to manage users and system settings
 
@@ -492,4 +492,4 @@ To continue development:
 **Last Updated**: April 13, 2026  
 **Version**: 1.0 Final  
 
-## 🐍 Ready to Learn Python with Hanominds! 🎉
+## 🚀 Ready to Learn Tech & Coding with Hanominds! 🎉
