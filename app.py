@@ -723,13 +723,30 @@ def student_dashboard():
     if user.role != 'student':
         return redirect(url_for('index'))
 
-    course = Course.query.first()
-    modules = Module.query.filter_by(course_id=course.id).order_by(Module.order).all()
+    courses = Course.query.all()
     progress = Progress.query.filter_by(user_id=user.id).all()
-    progress_dict = {p.module_id: p for p in progress}
+    
+    total_modules = 0
+    completed = 0
+    courses_data = []
 
-    total_modules = len(modules)
-    completed = sum(1 for p in progress if p.completed)
+    for course in courses:
+        modules = Module.query.filter_by(course_id=course.id).order_by(Module.order).all()
+        total = len(modules)
+        course_module_ids = [m.id for m in modules]
+        comp = sum(1 for p in progress if p.module_id in course_module_ids and p.completed)
+        
+        total_modules += total
+        completed += comp
+        
+        c_progress_percent = (comp / total * 100) if total > 0 else 0
+        courses_data.append({
+            'course': course,
+            'emoji': '🐍' if 'python' in course.title.lower() else '🚀',
+            'desc': 'Learn programming with fun!' if 'python' in course.title.lower() else 'A Complete Technology Curriculum',
+            'progress_percent': c_progress_percent
+        })
+
     progress_percent = (completed / total_modules * 100) if total_modules > 0 else 0
 
     leaderboard = Leaderboard.query.order_by(Leaderboard.points.desc()).limit(5).all()
@@ -739,17 +756,17 @@ def student_dashboard():
     user_points = user_leaderboard.points if user_leaderboard else 0
     user_streak = user_leaderboard.streak if user_leaderboard else 0
 
-    return render_template('student-dashboard.html', user=user, progress_percent=progress_percent, leaderboard=leaderboard_data, user_points=user_points, user_streak=user_streak)
+    return render_template('student-dashboard.html', user=user, progress_percent=progress_percent, courses_data=courses_data, leaderboard=leaderboard_data, user_points=user_points, user_streak=user_streak)
 
-@app.route('/course')
-def course():
+@app.route('/course/<int:course_id>')
+def course(course_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     user = User.query.get(session['user_id'])
     if user.role != 'student':
         return redirect(url_for('index'))
 
-    course = Course.query.first()
+    course = Course.query.get_or_404(course_id)
     modules = Module.query.filter_by(course_id=course.id).order_by(Module.order).all()
     progress = Progress.query.filter_by(user_id=user.id).all()
     progress_dict = {p.module_id: p for p in progress}
@@ -900,9 +917,12 @@ def manage_modules():
     if user.role != 'instructor':
         return redirect(url_for('index'))
 
-    course = Course.query.first()
-    modules = Module.query.filter_by(course_id=course.id).all()
-    return render_template('manage-modules.html', modules=modules)
+    courses = Course.query.all()
+    modules_by_course = {}
+    for course in courses:
+        modules_by_course[course] = Module.query.filter_by(course_id=course.id).order_by(Module.order).all()
+        
+    return render_template('manage-modules.html', modules_by_course=modules_by_course)
 
 @app.route('/edit-module/<int:module_id>', methods=['GET', 'POST'])
 def edit_module(module_id):
@@ -937,17 +957,18 @@ def edit_module(module_id):
     questions = Question.query.filter_by(quiz_id=quiz.id).all() if quiz else []
     return render_template('edit-module.html', module=mod, lesson=lesson, assignment=assignment, questions=questions)
 
-@app.route('/add-module', methods=['GET', 'POST'])
-def add_module():
+@app.route('/add-module/<int:course_id>', methods=['GET', 'POST'])
+def add_module(course_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     user = User.query.get(session['user_id'])
     if user.role != 'instructor':
         return redirect(url_for('index'))
 
+    course = Course.query.get_or_404(course_id)
+
     if request.method == 'POST':
         title = request.form['title']
-        course = Course.query.first()
         # Get the next order number
         max_order = db.session.query(db.func.max(Module.order)).filter_by(course_id=course.id).scalar() or 0
         new_module = Module(course_id=course.id, title=title, order=max_order + 1)
@@ -967,8 +988,7 @@ def view_students():
         return redirect(url_for('index'))
 
     students = User.query.filter_by(role='student').all()
-    course = Course.query.first()
-    total_modules = Module.query.filter_by(course_id=course.id).count() if course else 0
+    total_modules = Module.query.count()
     
     # Enrich student data with progress tracking
     student_data = []
@@ -1008,8 +1028,7 @@ def instructor_analytics():
         return redirect(url_for('index'))
 
     students = User.query.filter_by(role='student').all()
-    course = Course.query.first()
-    total_modules = Module.query.filter_by(course_id=course.id).count() if course else 0
+    total_modules = Module.query.count()
     
     # Build analytics for each student
     student_stats = []

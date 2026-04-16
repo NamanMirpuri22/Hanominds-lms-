@@ -101,10 +101,12 @@
 
         .login-container {
             min-height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            box-sizing: border-box;
             position: relative;
         }
 
@@ -357,8 +359,8 @@
     <div class="login-container">
         <div class="login-card">
             <div class="logo-section">
-                <div class="logo-icon">�</div>
-                <div class="logo-text">Hanominds Learning Technologies</div>
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hanominds Logo" style="max-width: 300px; height: auto; margin-bottom: 15px;">
+                <br>
                 <div class="tagline">Build Skills. Build Future. 🚀</div>
             </div>
 
