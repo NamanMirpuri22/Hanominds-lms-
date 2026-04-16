@@ -684,6 +684,14 @@ print("Come back soon! 🤗")</code></pre>
         db.session.add(admin)
         db.session.commit()
 
+    if not Course.query.filter_by(title='Tech World for Kids').first():
+        try:
+            from seed_techworld import run_seed
+            print("Auto-seeding Tech World for Kids curriculum...")
+            run_seed()
+        except:
+            pass
+
 @app.route('/')
 def index():
     if 'user_id' in session:
