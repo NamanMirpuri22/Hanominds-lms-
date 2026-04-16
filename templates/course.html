@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course - Hanominds Learning Technologies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hanominds Logo" style="max-width: 90%; height: auto; max-height: 60px; display: block; margin: 0 auto;">
+        </div>
+        <nav class="sb-nav">
+            <a href="{{ url_for('student_dashboard') }}" class="sb-item">🏠 Dashboard</a>
+            <a href="{{ url_for('student_dashboard') }}" class="sb-item active">📚 Courses</a>
+            <a href="{{ url_for('logout') }}" class="sb-item">🚪 Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">📚 My Course</div>
+        </div>
+
+        <h2>{{ course.title }}</h2>
+        <div class="modules-grid">
+            {% for module in modules %}
+            <div class="module-card {{ 'locked' if module.status == 'locked' else 'current' if module.status == 'current' else 'done' }} {{ 'blue-top' if loop.index % 4 == 1 else 'green-top' if loop.index % 4 == 2 else 'orange-top' if loop.index % 4 == 3 else 'pink-top' }}"
+                {% if module.status !='locked'
+                %}onclick="window.location.href='{{ url_for('module', module_id=module.id) }}'" {% endif %}>
+                <h3>{{ module.title }}</h3>
+                <p>Status: {{ '🔒 Locked' if module.status == 'locked' else '▶ Current' if module.status == 'current'
+                    else '✅ Completed' }}</p>
+                {% if module.status != 'locked' %}
+                <button class="continue-btn">Enter 🚪</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
